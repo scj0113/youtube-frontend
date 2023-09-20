@@ -3,11 +3,16 @@ import Home from "./pages/home";
 import Watch from "./pages/Watch";
 import Layout from "./components/Layout";
 import NotFound from "./pages/NotFound";
+import Create from "./pages/Create";
+import Profile from "./pages/Mini";
+import { Card } from "react-bootstrap";
+import Mini from "./pages/Mini";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Layout />,
+    errorElement: <NotFound />,
     children: [
       {
         index: true,
@@ -17,11 +22,15 @@ const router = createBrowserRouter([
         path: "watch",
         element: <Watch />,
       },
-      {
-        path: "not-found",
-        element: <NotFound />,
-      },
     ],
+  },
+  {
+    path: "/create",
+    element: <Create />,
+  },
+  {
+    path: "/mini",
+    element: <Mini />,
   },
 ]);
 
