@@ -9,3 +9,11 @@ const instance = axios.create({
 export const getCategories = async () => {
   return await instance.get("category");
 };
+
+export const addVideo = async (data) => {
+  return await instance.post("video", data);
+};
+
+export const getVideos = async () => {
+  return await instance.get("video");
+};

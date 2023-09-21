@@ -4,8 +4,6 @@ import Watch from "./pages/Watch";
 import Layout from "./components/Layout";
 import NotFound from "./pages/NotFound";
 import Create from "./pages/Create";
-import Profile from "./pages/Mini";
-import { Card } from "react-bootstrap";
 import Mini from "./pages/Mini";
 
 const router = createBrowserRouter([
