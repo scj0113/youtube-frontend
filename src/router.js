@@ -4,8 +4,6 @@ import Watch from "./pages/Watch";
 import Layout from "./components/Layout";
 import NotFound from "./pages/NotFound";
 import Create from "./pages/Create";
-import Mini from "./pages/Mini";
-
 const router = createBrowserRouter([
   {
     path: "/",
@@ -25,10 +23,6 @@ const router = createBrowserRouter([
   {
     path: "/create",
     element: <Create />,
-  },
-  {
-    path: "/mini",
-    element: <Mini />,
   },
 ]);
 

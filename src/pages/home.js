@@ -12,6 +12,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFolder } from "@fortawesome/free-regular-svg-icons";
 import { useEffect, useState } from "react";
 import { getCategories, getVideos } from "../api/video";
+import { useInView } from "react-intersection-observer";
 
 const StyledAside = styled.aside`
   display: none;
@@ -126,7 +127,6 @@ const MainContent = styled.div`
     }
   }
 `;
-
 const StyledMain = styled.main`
   padding-top: 56px;
   display: flex;
@@ -232,28 +232,58 @@ const StyledMain = styled.main`
 const Home = () => {
   const [categories, setCategories] = useState([]);
   const [videos, setVideos] = useState([]);
+  const [ref, inView] = useInView();
+  const [page, setPage] = useState(1);
+  const [category, setCategory] = useState(null);
 
   const categoryAPI = async () => {
     const result = await getCategories();
     setCategories(result.data);
   };
-
   const videoAPI = async () => {
-    const reult = await getVideos();
-    setVideos(reult.data);
+    // database 연결해야 하는 부분 -> Spring + MyBatis(동적쿼리) / Spring Boot + JPA (JPQL, @Query)
+    // --> QueryDSL
+
+    const result = await getVideos(page, category);
+    console.log(result.data);
+    setVideos([...videos, ...result.data]);
+  };
+
+  const categoryFilterAPI = async () => {
+    const result = await getVideos(page, category);
+    setVideos(result.data);
   };
 
   useEffect(() => {
     categoryAPI();
-    videoAPI();
-
-    // fetch("http://localhost:8080/api/category")
-    //   .then((response) => response.json())
-    //   .then((json) => {
-    //     console.log(json);
-    //     setCategories(json);
-    //   });
+    // videoAPI();
+    //     fetch("http://localhost:8080/api/category").then((response)=>
+    //     response.json()).then((json)=>{console.log(json);setCategories(json);
+    //   })
   }, []);
+
+  useEffect(() => {
+    if (inView) {
+      console.log(`${inView} : 무한 스크롤 요청이 들어가야하는 부분!`);
+      videoAPI();
+      setPage(page + 1);
+    }
+  }, [inView]);
+
+  useEffect(() => {
+    if (category != null) {
+      console.log(category);
+      categoryFilterAPI();
+    }
+  }, [category]);
+
+  const filterCategory = (e) => {
+    e.preventDefault();
+    const href = e.target.href.split("/");
+    console.log(href[href.length - 1]);
+    setCategory(parseInt(href[href.length - 1]));
+    setPage(1);
+  };
 
   return (
     <StyledMain>
@@ -297,11 +327,14 @@ const Home = () => {
             전체
           </a>
           {categories.map((category) => (
-            <a href="#" key={category.categoryCode}>
+            <a
+              href={category.categoryCode}
+              onClick={filterCategory}
+              key={category.categoryCode}
+            >
               {category.categoryName}
             </a>
           ))}
-          ;
         </nav>
         <section>
           {videos.map((video) => (
@@ -318,19 +351,19 @@ const Home = () => {
               <div className="video-summary">
                 <img
                   src={"/upload/" + video.channel.channelPhoto}
-                  alt="채널이미지"
+                  alt="채널 이미지"
                 />
                 <div className="video-desc">
                   <h3>{video.videoTitle}</h3>
                   <p>{video.channel.channelName}</p>
-                  <p className="desc-final">
-                    조회수 <span>{video.videoViews}</span>ㆍ <span>1일</span> 전
+                  <p>
+                    조회수<span>{video.videoViews}</span>회 <span>1일</span> 전
                   </p>
                 </div>
               </div>
             </a>
           ))}
-          ;
+          <div ref={ref}></div>
         </section>
       </MainContent>
     </StyledMain>

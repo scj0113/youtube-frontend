@@ -11,9 +11,10 @@ const Header = styled.h1`
   font-weight: bold;
   padding: 20px 0;
 `;
+
 const Create = () => {
   const [categories, setCategories] = useState([]);
-  const [title, settitle] = useState("");
+  const [title, setTitle] = useState("");
   const [desc, setDesc] = useState();
   const [video, setVideo] = useState(null);
   const [image, setImage] = useState(null);
@@ -28,14 +29,12 @@ const Create = () => {
   }, []);
 
   const onClick = () => {
-    console.log("title :" + title);
-    console.log("desc : " + desc);
+    console.log(title);
+    console.log(desc);
     console.log(image);
     console.log(video);
     console.log(select);
-
     const formData = new FormData();
-
     formData.append("title", title);
     formData.append("desc", desc);
     formData.append("image", image);
@@ -46,7 +45,6 @@ const Create = () => {
   };
 
   const onUploadImage = (e) => {
-    // console.log(e.target.files[0]);
     setImage(e.target.files[0]);
   };
 
@@ -67,7 +65,7 @@ const Create = () => {
           <Form.Control
             type="text"
             value={title}
-            onChange={(e) => settitle(e.target.value)}
+            onChange={(e) => setTitle(e.target.value)}
           />
         </Form.Group>
         <Form.Group className="mb-3">
@@ -100,7 +98,7 @@ const Create = () => {
           onClick={onClick}
         >
           저장
-        </Button>{" "}
+        </Button>
       </Form>
     </Container>
   );
