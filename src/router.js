@@ -4,6 +4,9 @@ import Watch from "./pages/Watch";
 import Layout from "./components/Layout";
 import NotFound from "./pages/NotFound";
 import Create from "./pages/Create";
+import Mini from "./components/Mini";
+import Mini_origin from "./components/Mini_origin";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -21,8 +24,8 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: "/create",
-    element: <Create />,
+    path: "/mini",
+    element: <Mini />,
   },
 ]);
 
