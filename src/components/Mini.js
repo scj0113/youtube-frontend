@@ -1,11 +1,24 @@
 import React, { useState } from "react";
+import Modal from "./modal.js";
 import "../css/Mini.css";
+import son from "../assets/son.jpg";
 
-const Mini = () => {
+const ProfileForm = () => {
   const [isFlipped, setIsFlipped] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   const handleCardClick = () => {
     setIsFlipped(!isFlipped);
+  };
+
+  const handleImageClick = (index) => {
+    setIsModalOpen(true);
+    setCurrentImageIndex(index);
+  };
+
+  const handleModalClose = () => {
+    setIsModalOpen(false);
   };
 
   const customButtonStyle = {
@@ -14,7 +27,6 @@ const Mini = () => {
     cursor: "pointer",
     borderRadius: "4px",
   };
- 
 
   const customBackButtonStyle = {
     display: isFlipped ? "block" : "none",
@@ -25,94 +37,91 @@ const Mini = () => {
 
   return (
     <div className="container">
-      <div className="header-sign">축구 카테고리 신청하였습니다</div>
-      <div className={`custom-card ${isFlipped ? "flipped" : ""}`} onClick={handleCardClick}>
+      <div className={`custom-card ${isFlipped ? "flipped" : ""}`}>
         <div className="card-front">
-          <img
-            src="../upload/money.png"
-            alt="User"
-            width="288px"
-            height="350px"
-          />
+          <div>
+            <img
+              className="main-image"
+              src={son}
+              alt="User"
+              onClick={() => handleImageClick(0)}
+            />
+          </div>
           <div className="card-body">
-            <h3>사용자명</h3>
-            <p>한줄소개</p>          
+            <h1>#이름#</h1>
+            <p className="pf-p-text">
+              한줄소개한줄소개한줄소개한줄소개한줄소개한줄소개한줄소개aergaergaergaergaergargaergaergaergaergaergreaaergaergaergaergaerg한줄소개한줄소개한줄소개한줄소개한줄소개한줄소개한줄소개한줄소개한줄소개한줄소개한줄소개
+            </p>
           </div>
         </div>
-        <div>
-       
+
+        <div className="front-Btn">
           <button
-            className="front-applyBtn" 
-            style={customButtonStyle}   
-            // onClick={"#"}
+            className="front-infoBtn"
+            style={customButtonStyle}
+            onClick={handleCardClick}
           >
-            승락
+            프로필 정보보기
           </button>
-          <button
-            className="front-chatBtn"  
-            style={customButtonStyle}   
-            // onClick={"#"}
-          >
-            채팅
-          </button>
-         
         </div>
         <div className="card-back">
           <div className="card-body">
             <div className="info-row">
               <div className="info-label">이름:</div>
-              <div className="info-value">사용자명</div>
+              <div className="info-value">#사용자명#</div>
             </div>
+            <hr />
             <div className="info-row">
               <div className="info-label">성별:</div>
-              <div className="info-value">남성</div>
+              <div className="info-value">#성별#</div>
             </div>
+            <hr />
             <div className="info-row">
               <div className="info-label">거주지:</div>
-              <div className="info-value">서울, 대한민국</div>
+              <div className="info-value">#거주지#</div>
             </div>
+            <hr />
             <div className="info-row">
               <div className="info-label">나이:</div>
-              <div className="info-value">30세</div>
+              <div className="info-value">#나이#</div>
             </div>
+            <hr />
             <div className="info-row">
               <div className="info-label">취미1:</div>
-              <div className="info-value">축구</div>
+              <div className="info-value">#취미1#</div>
             </div>
+            <hr />
             <div className="info-row">
               <div className="info-label">취미2:</div>
-              <div className="info-value">야구</div>
+              <div className="info-value">#취미2#</div>
             </div>
+            <hr />
             <div className="info-row">
               <div className="info-label">취미3:</div>
-              <div className="info-value">농구</div>
+              <div className="info-value">#취미3#</div>
             </div>
-          
           </div>
-
         </div>
-        
-        <div >
-          
+
+        <div>
           <button
-            className="back-applyBtn" 
+            className="back-infoBtn"
             style={customBackButtonStyle}
-            // onClick={"#"}
+            onClick={handleCardClick}
           >
-             승락
+            앞!
           </button>
-          <button
-            className="back-chatBtn" 
-            style={customBackButtonStyle}
-            // onClick={"#"}
-          >
-            채팅
-          </button>    
-          </div>  
         </div>
       </div>
-    
+      {isModalOpen && (
+        <Modal
+          images={[son]}
+          index={currentImageIndex}
+          close={handleModalClose}
+        />
+      )}
+    </div>
   );
 };
 
-export default Mini;
+export default ProfileForm;
